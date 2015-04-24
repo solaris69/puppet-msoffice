@@ -115,7 +115,7 @@ define msoffice::package(
 
       exec { 'install-office':
         path      => $::path,
-        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office\\setup.exe\" /settings \"${msoffice::params::temp_dir}\\office${office_num}_config.ini\"",
+        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /settings \"${msoffice::params::temp_dir}\\office${office_num}_config.ini\"",
         provider  => powershell,
         logoutput => true,
         timeout   => 0,
@@ -133,7 +133,7 @@ define msoffice::package(
 
       exec { 'install-office':
         path      => $::path,
-        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office\\setup.exe\" /config \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
+        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /config \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
         provider  => powershell,
         logoutput => true,
         timeout   => 0,
@@ -143,7 +143,7 @@ define msoffice::package(
       }
 
       # exec { 'upgrade-office':
-      #   command   => "& \"${office_root}\\office\\setup.exe\" /modify ${office_product} /config \"${msoffice::params::temp_dir}\\office_config.xml\"",
+      #   command   => "& \"${office_root}\\office${office_num}\\setup.exe\" /modify ${office_product} /config \"${msoffice::params::temp_dir}\\office_config.xml\"",
       #   provider  => powershell,
       #   logoutput => true,
       #   subscribe => File["${msoffice::params::temp_dir}\\office_config.xml"],
@@ -155,7 +155,7 @@ define msoffice::package(
     if $version == '2003' {
       exec { 'uninstall-office':
         path      => $::path,
-        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office\\setup.exe\" /x ${office_product}.msi /qb",
+        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /x ${office_product}.msi /qb",
         provider  => powershell,
         logoutput => true,
         timeout   => 0,
@@ -170,7 +170,7 @@ define msoffice::package(
     } else {
       exec { 'uninstall-office':
         path      => $::path,
-        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office\\setup.exe\" /uninstall ${office_product} /config \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
+        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /uninstall ${office_product} /config \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
         provider  => powershell,
         logoutput => true,
         timeout   => 0,
