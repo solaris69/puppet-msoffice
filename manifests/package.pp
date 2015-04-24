@@ -131,7 +131,7 @@ define msoffice::package(
 
       exec { 'install-office':
         path      => $::path,
-        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office\\setup.exe\" /settings \"${msoffice::params::temp_dir}\\office_config.ini\"",
+        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office\\setup.exe\" /config \"${msoffice::params::temp_dir}\\office_config.xml\"",
         provider  => powershell,
         logoutput => true,
         creates   => 'C:\\Program Files\\Microsoft Office',
