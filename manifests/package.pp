@@ -118,7 +118,7 @@ define msoffice::package(
         logoutput => true,
         subscribe => File["${msoffice::params::temp_dir}\\office_config.ini"],
         require   => [File["${msoffice::params::temp_dir}\\office_config.ini"],
-                      File["${msoffice::params::temp_dir}\\setup.exe"]],
+                      File["${msoffice::params::temp_dir}\\office"]],
       }
     } else {
       file { "${msoffice::params::temp_dir}\\office_config.xml":
@@ -134,7 +134,7 @@ define msoffice::package(
         logoutput => true,
         creates   => 'C:\\Program Files\\Microsoft Office',
         require   => [File["${msoffice::params::temp_dir}\\office_config.xml"],
-                      File["${msoffice::params::temp_dir}\\setup.exe"]],
+                      File["${msoffice::params::temp_dir}\\office"]],
       }
 
       # exec { 'upgrade-office':
@@ -143,7 +143,7 @@ define msoffice::package(
       #   logoutput => true,
       #   subscribe => File["${msoffice::params::temp_dir}\\office_config.xml"],
       #   require   => [File["${msoffice::params::temp_dir}\\office_config.xml"],
-      #                 File["${msoffice::params::temp_dir}\\setup.exe"]],
+      #                 File["${msoffice::params::temp_dir}\\office"]],
       # }
     }
   } elsif $ensure == 'absent' {
@@ -153,7 +153,7 @@ define msoffice::package(
         provider  => powershell,
         logoutput => true,
         onlyif    => "if (Get-Item -LiteralPath \'\\${office_reg_key}\' -ErrorAction SilentlyContinue).GetValue(\'${office_build}\')) { exit 1 }",
-        require   => File["${msoffice::params::temp_dir}\\setup.exe"],
+        require   => File["${msoffice::params::temp_dir}\\office"],
       }
 
       file { ["${msoffice::params::temp_dir}\\office_config.ini","${msoffice::params::temp_dir}\\office_install.log"]:
@@ -166,7 +166,7 @@ define msoffice::package(
         provider  => powershell,
         logoutput => true,
         onlyif    => "if (Get-Item -LiteralPath \'\\${office_reg_key}\' -ErrorAction SilentlyContinue).GetValue(\'${office_build}\')) { exit 1 }",
-        require   => File["${msoffice::params::temp_dir}\\setup.exe"],
+        require   => File["${msoffice::params::temp_dir}\\office"],
       }
     }
   } else { }
