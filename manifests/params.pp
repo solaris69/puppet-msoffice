@@ -113,6 +113,7 @@ class msoffice::params {
     },
     '2010' => {
       'version' => '14',
+      'hasMultipleArch' => true,
       'editions' => {
         'Starter' => {
           'products' => ['Word','Excel'],
@@ -165,6 +166,7 @@ class msoffice::params {
     },
     '2013' => {
       'version' => '15',
+      'hasMultipleArch' => true,
       'editions' => {
         'Home and Student' => {
           'products' => ['Word','Excel','Powerpoint','OneNote'],
