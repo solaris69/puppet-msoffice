@@ -102,50 +102,46 @@ define msoffice::package(
 
   if $ensure == 'present' {
     if $version == '2003' {
-      if $office_root {
-        file { "${msoffice::params::temp_dir}\\office_config.ini":
-          content => template('msoffice/setup.ini.erb'),
-          mode    => '0755',
-          owner   => 'Administrator',
-          group   => 'Administrators',
-        }
+      file { "${msoffice::params::temp_dir}\\office_config.ini":
+        content => template('msoffice/setup.ini.erb'),
+        mode    => '0755',
+        owner   => 'Administrator',
+        group   => 'Administrators',
+      }
 
-        exec { 'install-office':
-          command   => "& \"${msoffice::params::temp_dir}\\setup.exe\" /settings \"${msoffice::params::temp_dir}\\office_config.ini\"",
-          provider  => powershell,
-          logoutput => true,
-          subscribe => File["${msoffice::params::temp_dir}\\office_config.ini"],
-          require   => [File["${msoffice::params::temp_dir}\\office_config.ini"],
-                        File["${msoffice::params::temp_dir}\\setup.exe"]],
-        }
+      exec { 'install-office':
+        command   => "& \"${msoffice::params::temp_dir}\\setup.exe\" /settings \"${msoffice::params::temp_dir}\\office_config.ini\"",
+        provider  => powershell,
+        logoutput => true,
+        subscribe => File["${msoffice::params::temp_dir}\\office_config.ini"],
+        require   => [File["${msoffice::params::temp_dir}\\office_config.ini"],
+                      File["${msoffice::params::temp_dir}\\setup.exe"]],
       }
     } else {
-      if $office_root {
-        file { "${msoffice::params::temp_dir}\\office_config.xml":
-          content => template('msoffice/config.erb'),
-          mode    => '0755',
-          owner   => 'Administrator',
-          group   => 'Administrators',
-        }
-
-        exec { 'install-office':
-          command   => "& \"${msoffice::params::temp_dir}\\setup.exe\" /config \"${msoffice::params::temp_dir}\\office_config.xml\"",
-          provider  => powershell,
-          logoutput => true,
-          creates   => 'C:\\Program Files\\Microsoft Office',
-          require   => [File["${msoffice::params::temp_dir}\\office_config.xml"],
-                        File["${msoffice::params::temp_dir}\\setup.exe"]],
-        }
-
-        exec { 'upgrade-office':
-          command   => "& \"${office_root}\\setup.exe\" /modify ${office_product} /config \"${msoffice::params::temp_dir}\\office_config.xml\"",
-          provider  => powershell,
-          logoutput => true,
-          subscribe => File["${msoffice::params::temp_dir}\\office_config.xml"],
-          require   => [File["${msoffice::params::temp_dir}\\office_config.xml"],
-                        File["${msoffice::params::temp_dir}\\setup.exe"]],
-        }
+      file { "${msoffice::params::temp_dir}\\office_config.xml":
+        content => template('msoffice/config.erb'),
+        mode    => '0755',
+        owner   => 'Administrator',
+        group   => 'Administrators',
       }
+
+      exec { 'install-office':
+        command   => "& \"${msoffice::params::temp_dir}\\setup.exe\" /config \"${msoffice::params::temp_dir}\\office_config.xml\"",
+        provider  => powershell,
+        logoutput => true,
+        creates   => 'C:\\Program Files\\Microsoft Office',
+        require   => [File["${msoffice::params::temp_dir}\\office_config.xml"],
+                      File["${msoffice::params::temp_dir}\\setup.exe"]],
+      }
+
+      # exec { 'upgrade-office':
+      #   command   => "& \"${office_root}\\setup.exe\" /modify ${office_product} /config \"${msoffice::params::temp_dir}\\office_config.xml\"",
+      #   provider  => powershell,
+      #   logoutput => true,
+      #   subscribe => File["${msoffice::params::temp_dir}\\office_config.xml"],
+      #   require   => [File["${msoffice::params::temp_dir}\\office_config.xml"],
+      #                 File["${msoffice::params::temp_dir}\\setup.exe"]],
+      # }
     }
   } elsif $ensure == 'absent' {
     if $version == '2003' {
