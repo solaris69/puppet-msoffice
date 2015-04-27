@@ -113,7 +113,7 @@ define msoffice::package(
         group   => 'Administrators',
       }
 
-      exec { 'install-office':
+      exec { "install-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /settings \"${msoffice::params::temp_dir}\\office${office_num}_config.ini\"",
         provider  => powershell,
@@ -131,7 +131,7 @@ define msoffice::package(
         group   => 'Administrators',
       }
 
-      exec { 'install-office':
+      exec { "install-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /config \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
         provider  => powershell,
@@ -153,7 +153,7 @@ define msoffice::package(
     }
   } elsif $ensure == 'absent' {
     if $version == '2003' {
-      exec { 'uninstall-office':
+      exec { "uninstall-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /x ${office_product}.msi /qb",
         provider  => powershell,
@@ -165,10 +165,10 @@ define msoffice::package(
 
       file { ["${msoffice::params::temp_dir}\\office${office_num}_config.ini","${msoffice::params::temp_dir}\\office_install.log"]:
         ensure  => absent,
-        require => Exec['uninstall-office']
+        require => Exec["uninstall-office${office_num}"]
       }
     } else {
-      exec { 'uninstall-office':
+      exec { "uninstall-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /uninstall ${office_product} /config \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
         provider  => powershell,
