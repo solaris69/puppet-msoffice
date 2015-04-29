@@ -110,7 +110,7 @@ define msoffice(
         version   => $version,
         lang_code => $lang_code,
         arch      => $arch,
-        require         => Msoffice::Package["microsoft office ${version}"],
+        require   => Msoffice::Package["microsoft office ${version}"],
       }
     }
   }
