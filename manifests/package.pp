@@ -113,6 +113,7 @@ define msoffice::package(
       path      => $::path,
       command   => "robocopy \"${office_root}\" \"${msoffice::params::temp_dir}\\office${office_num}\" /e",
       logoutput => true,
+      returns   => [0,1,2,3,4,5,6,7],
       creates   => "${msoffice::params::temp_dir}\\office${office_num}",
     }
   }
