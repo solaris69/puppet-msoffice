@@ -111,7 +111,7 @@ define msoffice::package(
 
     exec { "retrieve office${office_num} files":
       path      => $::path,
-      command   => "robocopy ${office_root} ${msoffice::params::temp_dir}\\office${office_num} /e",
+      command   => "robocopy \"${office_root}\" \"${msoffice::params::temp_dir}\\office${office_num}\" /e",
       logoutput => true,
       creates   => "${msoffice::params::temp_dir}\\office${office_num}",
     }
