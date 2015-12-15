@@ -64,7 +64,7 @@ define msoffice::package(
 
   include msoffice::params
 
-  validate_re($version,'^(2003|2007|2010|2013)$', 'The version agrument specified does not match a valid version of office')
+  validate_re($version,'^(2003|2007|2010|2013|2016)$', 'The version agrument specified does not match a valid version of office')
 
   $edition_regex = join(keys($msoffice::params::office_versions[$version]['editions']), '|')
   validate_re($edition,"^${edition_regex}$", 'The edition argument does not match a valid edition for the specified version of office')
@@ -128,7 +128,32 @@ define msoffice::package(
         require   => [File["${msoffice::params::temp_dir}\\office${office_num}_config.ini"],
                       Exec["retrieve office${office_num} files"]],
       }
-    } else {
+    } elsif $version == '2016' {
+      file { "${msoffice::params::temp_dir}\\office${office_num}_config.xml":
+        content => template('msoffice/config.erb'),
+        mode    => '0755',
+        owner   => 'Administrator',
+        group   => 'Administrators',
+      }
+
+      if ($arch=='x64') {
+        $executable = '64'
+      }
+      else {
+        $executable = '32'
+      }
+    
+      exec { "install-office${office_num}":
+        path      => $::path,
+        command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\office\\setup${executable}.exe\" \\download  \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
+        provider  => powershell,
+        logoutput => true,
+        timeout   => 0,
+        unless    => template('msoffice/check_office_installed.ps1.erb'),
+        require   => [File["${msoffice::params::temp_dir}\\office${office_num}_config.xml"],
+                      Exec["retrieve office${office_num} files"]],
+      }
+  } else {
       file { "${msoffice::params::temp_dir}\\office${office_num}_config.xml":
         content => template('msoffice/config.erb'),
         mode    => '0755',

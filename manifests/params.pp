@@ -201,8 +201,23 @@ class msoffice::params {
           'build' => '15.0.4569.1506'
         },
       }
+    },
+    '2016' => {
+      'version' => '16',
+      'editions' => {
+        'Professional Plus' => {
+          'products' => ['Word','Excel','Powerpoint','OneNote', 'Outlook','Publisher','Access', 'InfoPath', 'Lync'],
+          'office_product' => 'ProPlusr',
+        }
+      },
+      'service_packs' => {
+        '0' => {
+          'build' => '16.0.4266.1003'
+        },
+      }
     }
   }
+
 
   $lcid_strings = {
     'af' => '1078', 'sq' => '1052', 'am' => '1118', 'ar-dz' => '5121', 'ar-bh' => '15361', 'ar-eg' => '3073', 'ar-iq' => '2049',
