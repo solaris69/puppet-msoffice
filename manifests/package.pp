@@ -120,7 +120,7 @@ define msoffice::package(
       exec { "install-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /settings \"${msoffice::params::temp_dir}\\office${office_num}_config.ini\"",
-        provider  => powershell,
+#        provider  => powershell,
         logoutput => true,
         timeout   => 0,
         unless    => template('msoffice/check_office_installed.ps1.erb'),
@@ -146,7 +146,7 @@ define msoffice::package(
       exec { "install-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\office\\setup${executable}.exe\" \\download  \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
-        provider  => powershell,
+#        provider  => powershell,
         logoutput => true,
         timeout   => 0,
         unless    => template('msoffice/check_office_installed.ps1.erb'),
@@ -164,7 +164,7 @@ define msoffice::package(
       exec { "install-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /config \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
-        provider  => powershell,
+#        provider  => powershell,
         logoutput => true,
         timeout   => 0,
         unless    => template('msoffice/check_office_installed.ps1.erb'),
@@ -186,7 +186,7 @@ define msoffice::package(
       exec { "uninstall-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /x ${office_product}.msi /qb",
-        provider  => powershell,
+#        provider  => powershell,
         logoutput => true,
         timeout   => 0,
         onlyif    => template('msoffice/check_office_installed.ps1.erb'),
@@ -201,7 +201,7 @@ define msoffice::package(
       exec { "uninstall-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /uninstall ${office_product} /config \"${msoffice::params::temp_dir}\\office${office_num}_config.xml\"",
-        provider  => powershell,
+#        provider  => powershell,
         logoutput => true,
         timeout   => 0,
         onlyif    => template('msoffice/check_office_installed.ps1.erb'),
