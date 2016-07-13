@@ -117,13 +117,14 @@ define msoffice::package(
         group   => 'Administrators',
       }
 
+      file{ 'c:/vc/check_office_installed.ps1': ensure => file, content => template('msoffice/check_office_installed.ps1.erb'), require => File['c:/vc']} ->
       exec { "install-office${office_num}":
         path      => $::path,
         command   => "& cmd.exe /c start /w \"${msoffice::params::temp_dir}\\office${office_num}\\setup.exe\" /settings \"${msoffice::params::temp_dir}\\office${office_num}_config.ini\"",
 #        provider  => powershell,
         logoutput => true,
         timeout   => 0,
-        unless    => template('msoffice/check_office_installed.ps1.erb'),
+        unless    => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_office_installed.ps1.erb',
         subscribe => File["${msoffice::params::temp_dir}\\office${office_num}_config.ini"],
         require   => [File["${msoffice::params::temp_dir}\\office${office_num}_config.ini"],
                       Exec["retrieve office${office_num} files"]],
