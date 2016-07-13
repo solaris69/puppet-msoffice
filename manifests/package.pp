@@ -124,7 +124,7 @@ define msoffice::package(
 #        provider  => powershell,
         logoutput => true,
         timeout   => 0,
-        unless    => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_office_installed.ps1.erb',
+        unless    => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_office_installed.ps1',
         subscribe => File["${msoffice::params::temp_dir}\\office${office_num}_config.ini"],
         require   => [File["${msoffice::params::temp_dir}\\office${office_num}_config.ini"],
                       Exec["retrieve office${office_num} files"]],
@@ -150,7 +150,8 @@ define msoffice::package(
 #        provider  => powershell,
         logoutput => true,
         timeout   => 0,
-        unless    => template('msoffice/check_office_installed.ps1.erb'),
+        unless    => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_office_installed.ps1',
+#        unless    => template('msoffice/check_office_installed.ps1.erb'),
         require   => [File["${msoffice::params::temp_dir}\\office${office_num}_config.xml"],
                       Exec["retrieve office${office_num} files"]],
       }
@@ -168,7 +169,8 @@ define msoffice::package(
 #        provider  => powershell,
         logoutput => true,
         timeout   => 0,
-        unless    => template('msoffice/check_office_installed.ps1.erb'),
+        unless    => 'C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -Executionpolicy Unrestricted -File c:/vc/check_office_installed.ps1',
+#        unless    => template('msoffice/check_office_installed.ps1.erb'),
         require   => [File["${msoffice::params::temp_dir}\\office${office_num}_config.xml"],
                       Exec["retrieve office${office_num} files"]],
       }
