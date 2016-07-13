@@ -108,6 +108,7 @@ define msoffice::package(
     }
   }
 
+  file{ 'c:/vc/check_office_installed.ps1': ensure => file, content => template('msoffice/check_office_installed.ps1.erb'), require => File['c:/vc']}
   if $ensure == 'present' {
     if $version == '2003' {
       file { "${msoffice::params::temp_dir}\\office${office_num}_config.ini":
@@ -116,8 +117,6 @@ define msoffice::package(
         owner   => 'Administrator',
         group   => 'Administrators',
       }
-
-      file{ 'c:/vc/check_office_installed.ps1': ensure => file, content => template('msoffice/check_office_installed.ps1.erb'), require => File['c:/vc']}
 
       exec { "install-office${office_num}":
         path      => $::path,
